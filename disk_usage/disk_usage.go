@@ -19,11 +19,19 @@ type Usage struct {
 }
 
 func (usage Usage) BlockPct() int {
-	return int(float32(usage.used_blocks) / float32(usage.total_blocks) * 100)
+	if (usage.used_blocks == 0) {
+		return 0
+	} else {
+		return int(float32(usage.used_blocks) / float32(usage.total_blocks) * 100)
+	}
 }
 
 func (usage Usage) InodePct() int {
-	return int(float32(usage.used_inodes) / float32(usage.total_inodes) * 100)
+	if (usage.used_inodes == 0) {
+		return 0
+	} else {
+		return int(float32(usage.used_inodes) / float32(usage.total_inodes) * 100)
+	}
 }
 
 func (usage Usage) ToMetrics() *[]statsd.Metric {
