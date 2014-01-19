@@ -29,3 +29,19 @@ gosystatsd
 # custom host and port
 gosystatsd -h myhost -p 9999
 ```
+
+you should start seeing data in statsd similar to this
+```
+   { 'system.memory.total': 7710,
+     'system.memory.used': 3253,
+     'system.memory.free': 4457,
+     'system.memory.shared': 0,
+     'system.memory.buffers': 68,
+     'system.memory.cached': 984,
+     'system.memory.available': 5509,
+     'system.memory.usagePct': 29,
+     'disk_usage.blocks.total.-dev-sda6': 19998104,
+     'disk_usage.blocks.used.-dev-sda6': 6941112,
+     'disk_usage.blocks.usagePct.-dev-sda6': 34
+   }
+```
