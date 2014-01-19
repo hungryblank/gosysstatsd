@@ -25,13 +25,13 @@ func Poll() DataPoint {
 	}
 	split := strings.Split(string(out), "\n")
 	mem := split[1]
-	mem_details := regexp.MustCompile(" +").Split(mem, -1)[1:]
-	total, _ := strconv.Atoi(mem_details[0])
-	used, _ := strconv.Atoi(mem_details[1])
-	free, _ := strconv.Atoi(mem_details[2])
-	shared, _ := strconv.Atoi(mem_details[3])
-	buffers, _ := strconv.Atoi(mem_details[4])
-	cached, _ := strconv.Atoi(mem_details[5])
+	memDetails := regexp.MustCompile(" +").Split(mem, -1)[1:]
+	total, _ := strconv.Atoi(memDetails[0])
+	used, _ := strconv.Atoi(memDetails[1])
+	free, _ := strconv.Atoi(memDetails[2])
+	shared, _ := strconv.Atoi(memDetails[3])
+	buffers, _ := strconv.Atoi(memDetails[4])
+	cached, _ := strconv.Atoi(memDetails[5])
 	point := DataPoint{
 		total,
 		used,

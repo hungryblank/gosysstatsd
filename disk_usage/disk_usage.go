@@ -61,14 +61,14 @@ type DataPoint struct {
 }
 
 func rowToUsage(row string) *Usage {
-	row_tokens := regexp.MustCompile(" +").Split(row, -1)
-	total_blocks, _ := strconv.Atoi(row_tokens[1])
-	used_blocks, _ := strconv.Atoi(row_tokens[2])
+	rowTokens := regexp.MustCompile(" +").Split(row, -1)
+	totalBlocks, _ := strconv.Atoi(rowTokens[1])
+	usedBlocks, _ := strconv.Atoi(rowTokens[2])
 	usage := Usage{
-		row_tokens[0],
-		row_tokens[5],
-		total_blocks,
-		used_blocks,
+		rowTokens[0],
+		rowTokens[5],
+		totalBlocks,
+		usedBlocks,
 		0,
 		0,
 	}
@@ -85,11 +85,11 @@ func addInodeToUsages(usages []*Usage, out string) {
 }
 
 func addInodeToUsage(row string, usage *Usage) {
-	row_tokens := regexp.MustCompile(" +").Split(row, -1)
-	total_inodes, _ := strconv.Atoi(row_tokens[3])
-	used_inodes, _ := strconv.Atoi(row_tokens[4])
-	usage.total_inodes = total_inodes
-	usage.used_inodes = used_inodes
+	rowTokens := regexp.MustCompile(" +").Split(row, -1)
+	totalInodes, _ := strconv.Atoi(rowTokens[3])
+	usedInodes, _ := strconv.Atoi(rowTokens[4])
+	usage.total_inodes = totalInodes
+	usage.used_inodes = usedInodes
 }
 
 func parseOutput(out string) []*Usage {
