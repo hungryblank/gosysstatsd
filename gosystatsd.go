@@ -1,9 +1,9 @@
 package main
 
 import (
-	"./statsd"
-	"./disk_usage"
-	"./memory"
+	"github.com/hungryblank/gosysstatsd/statsd"
+	"github.com/hungryblank/gosysstatsd/disk_usage"
+	"github.com/hungryblank/gosysstatsd/memory"
 	"flag"
 	"fmt"
 	"os"

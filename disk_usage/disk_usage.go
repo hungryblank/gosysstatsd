@@ -6,7 +6,7 @@ import (
 	"strings"
 	"regexp"
 	"strconv"
-	"../statsd"
+	"github.com/hungryblank/gosysstatsd/statsd"
 )
 
 type Usage struct {
