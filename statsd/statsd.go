@@ -37,8 +37,8 @@ func New(host string, port int) *StatsdClient {
 	return &client
 }
 
-func (client *StatsdClient) UpdateMetrics(metrics []Metric) {
-	for _, metric := range metrics {
+func (client *StatsdClient) UpdateMetrics(metrics *[]Metric) {
+	for _, metric := range *metrics {
 		_,err := fmt.Fprintf(client.conn, metric.ToMessage())
 		if err != nil {
 			log.Println(err)
@@ -76,6 +76,6 @@ func Gauge(label string, value int) Metric {
 	return Metric(GaugeMetric{label, value})
 }
 
-func Report(client *StatsdClient, metrics []Metric) {
+func Report(client *StatsdClient, metrics *[]Metric) {
 	client.UpdateMetrics(metrics)
 }

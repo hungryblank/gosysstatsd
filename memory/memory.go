@@ -51,8 +51,8 @@ func (point DataPoint) UsagePct() int {
 	return 100 - int(float32(point.Available()) / float32(point.total) * 100.0)
 }
 
-func (point DataPoint) ToMetrics() []statsd.Metric {
-	return []statsd.Metric{
+func (point DataPoint) ToMetrics() *[]statsd.Metric {
+	metrics := []statsd.Metric{
 		statsd.Gauge("system.memory.total", point.total),
 		statsd.Gauge("system.memory.used", point.used),
 		statsd.Gauge("system.memory.free", point.free),
@@ -62,4 +62,5 @@ func (point DataPoint) ToMetrics() []statsd.Metric {
 		statsd.Gauge("system.memory.available", point.Available()),
 		statsd.Gauge("system.memory.usagePct", point.UsagePct()),
 	}
+	return &metrics
 }

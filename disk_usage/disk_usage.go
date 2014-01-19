@@ -103,14 +103,14 @@ func parseOutput(out string) []*Usage {
 	return list
 }
 
-func (point DataPoint) ToMetrics() []statsd.Metric {
+func (point DataPoint) ToMetrics() *[]statsd.Metric {
 	list := []statsd.Metric{}
 	for _, usage := range point.usages {
 		if (usage.IsNormalDevice()) {
 			usage.AppendMetrics(&list)
 		}
 	}
-	return list
+	return &list
 }
 
 func Poll() DataPoint {
