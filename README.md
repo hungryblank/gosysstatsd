@@ -10,7 +10,12 @@ just be deployed by copying one file on the destination system.
 
 ## Installation
 
-1. copy the executable on your system
+1. Copy the executable on your system
+```
+wget http://downloads.gofog.org/gosystatsd-0.0.1-x86_64
+```
+2. Use it
+
 
 ## Usage
 
