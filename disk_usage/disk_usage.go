@@ -6,41 +6,47 @@ import (
 	"strings"
 	"regexp"
 	"strconv"
+	"math"
 	"github.com/hungryblank/gosysstatsd/statsd"
 )
+
+func Pct(available int, total int) int {
+	if (available == 0) {
+		return 0
+	} else {
+		fraction := 1 - float64(available) / float64(total)
+		return int(math.Ceil(100 * fraction))
+	}
+}
 
 type Usage struct {
 	device string
 	mountPoint string
 	total_blocks int
+	available_blocks int
 	used_blocks int
 	total_inodes int
+	available_inodes int
 	used_inodes int
 }
 
 func (usage Usage) BlockPct() int {
-	if (usage.used_blocks == 0) {
-		return 0
-	} else {
-		return int(float32(usage.used_blocks) / float32(usage.total_blocks) * 100)
-	}
+	return Pct(usage.available_blocks, usage.total_blocks)
 }
 
 func (usage Usage) InodePct() int {
-	if (usage.used_inodes == 0) {
-		return 0
-	} else {
-		return int(float32(usage.used_inodes) / float32(usage.total_inodes) * 100)
-	}
+	return Pct(usage.available_inodes, usage.total_inodes)
 }
 
 func (usage Usage) ToMetrics() *[]statsd.Metric {
 	list := []statsd.Metric{
 		statsd.Gauge("disk_usage.blocks.total." + usage.device, usage.total_blocks),
 		statsd.Gauge("disk_usage.blocks.used." + usage.device, usage.used_blocks),
+		statsd.Gauge("disk_usage.blocks.available." + usage.device, usage.available_blocks),
 		statsd.Gauge("disk_usage.blocks.usagePct." + usage.device, usage.BlockPct()),
-		statsd.Gauge("disk_usage.inodes.total." + usage.device, usage.total_blocks),
-		statsd.Gauge("disk_usage.inodes.used." + usage.device, usage.used_blocks),
+		statsd.Gauge("disk_usage.inodes.total." + usage.device, usage.total_inodes),
+		statsd.Gauge("disk_usage.inodes.used." + usage.device, usage.used_inodes),
+		statsd.Gauge("disk_usage.inodes.available." + usage.device, usage.available_inodes),
 		statsd.Gauge("disk_usage.inodes.usagePct." + usage.device, usage.InodePct()),
 	}
 	return &list
@@ -64,11 +70,14 @@ func rowToUsage(row string) *Usage {
 	rowTokens := regexp.MustCompile(" +").Split(row, -1)
 	totalBlocks, _ := strconv.Atoi(rowTokens[1])
 	usedBlocks, _ := strconv.Atoi(rowTokens[2])
+	availableBlocks, _ := strconv.Atoi(rowTokens[3])
 	usage := Usage{
 		rowTokens[0],
 		rowTokens[5],
 		totalBlocks,
+		availableBlocks,
 		usedBlocks,
+		0,
 		0,
 		0,
 	}
@@ -86,9 +95,11 @@ func addInodeToUsages(usages []*Usage, out string) {
 
 func addInodeToUsage(row string, usage *Usage) {
 	rowTokens := regexp.MustCompile(" +").Split(row, -1)
-	totalInodes, _ := strconv.Atoi(rowTokens[3])
-	usedInodes, _ := strconv.Atoi(rowTokens[4])
+	totalInodes, _ := strconv.Atoi(rowTokens[1])
+	usedInodes, _ := strconv.Atoi(rowTokens[2])
+	availableInodes, _ := strconv.Atoi(rowTokens[3])
 	usage.total_inodes = totalInodes
+	usage.available_inodes = availableInodes
 	usage.used_inodes = usedInodes
 }
 
