@@ -28,9 +28,9 @@ func Poll() DataPoint {
 
 func (load DataPoint) ToMetrics() *[]statsd.Metric {
 	list := []statsd.Metric{
-		statsd.Gauge("system.loadavg.one", load.Last1Min),
-		statsd.Gauge("system.loadavg.five", load.Last5Min),
-		statsd.Gauge("system.loadavg.fifteen", load.Last15Min),
+		statsd.Gauge("system.cpu.loadavg.one", load.Last1Min),
+		statsd.Gauge("system.cpu.loadavg.five", load.Last5Min),
+		statsd.Gauge("system.cpu.loadavg.fifteen", load.Last15Min),
 	}
 	return &list
 }
