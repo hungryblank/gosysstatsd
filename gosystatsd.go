@@ -4,6 +4,7 @@ import (
 	"github.com/hungryblank/gosysstatsd/statsd"
 	"github.com/hungryblank/gosysstatsd/disk_usage"
 	"github.com/hungryblank/gosysstatsd/memory"
+	"github.com/hungryblank/gosysstatsd/loadavg"
 	"flag"
 	"fmt"
 	"os"
@@ -27,4 +28,6 @@ func main() {
 	statsd.Report(client, dataPoint.ToMetrics())
 	diskDataPoint := disk_usage.Poll()
 	statsd.Report(client, diskDataPoint.ToMetrics())
+	loadAvgDataPoint := loadavg.Poll()
+	statsd.Report(client, loadAvgDataPoint.ToMetrics())
 }
