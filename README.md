@@ -12,7 +12,7 @@ just be deployed by copying one file on the destination system.
 
 1. Copy the executable on your system
 ```
-wget http://downloads.gofog.org/gosystatsd-0.0.2-x86_64
+wget http://downloads.gofog.org/gosystatsd-0.0.3-x86_64
 ```
 2. Use it
 
@@ -20,7 +20,11 @@ wget http://downloads.gofog.org/gosystatsd-0.0.2-x86_64
 ## Usage
 
 every time the command is executed it will update the specified statsd
-server with disk and memory usage
+server with:
+
+* disk usage
+* memory usage
+* cpu load average
 
 ```sh
 # with default options statsd listening on localhost port 8125
@@ -40,6 +44,9 @@ you should start seeing data in statsd similar to this
      'system.memory.cached': 984,
      'system.memory.available': 5509,
      'system.memory.usagePct': 29,
+     'system.cpu.loadavg.one': 139,
+     'system.cpu.loadavg.five': 215,
+     'system.cpu.loadavg.fifteen': 179,
      'disk_usage.blocks.total.-dev-sda6': 19998104,
      'disk_usage.blocks.used.-dev-sda6': 6941112,
      'disk_usage.blocks.usagePct.-dev-sda6': 34
