@@ -24,7 +24,7 @@ server with:
 
 * disk usage
 * memory usage
-* cpu load average
+* cpu load average (multiplied by 100 to make it an integer value)
 
 ```sh
 # with default options statsd listening on localhost port 8125
